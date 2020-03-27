@@ -26,4 +26,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS runtime
 WORKDIR /opt/test-runner
 COPY --from=build /opt/test-runner/ . 
 COPY --from=build /root/.nuget/packages/ /root/.nuget
+
+# Required to run on a read-only filesystem
+ENV COMPlus_EnableDiagnostics 0
+
 ENTRYPOINT ["sh", "/opt/test-runner/bin/run.sh"]
